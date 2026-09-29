@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asil — Personal Journal & Portfolio</title>
+    
+    <!-- Google Fonts: Playfair Display (Serif Klasik) & Lora (Body Text Editorial) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- 1. DEFINISI DUA WARNA UTAMA & RESET --- */
+        :root {
+            --bg-color: #F9F6F0;      /* Warm Paper Cream */
+            --text-color: #1C1A19;    /* Deep Charcoal / Espresso */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Lora', serif;
+            line-height: 1.8;
+            padding: 0 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+            border-left: 1px solid var(--text-color);
+            border-right: 1px solid var(--text-color);
+        }
+
+        /* --- 2. TIPOGRAFI KLASIK --- */
+        h1, h2, h3, .logo-monogram {
+            font-family: 'Playfair Display', serif;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+        }
+
+        /* --- 3. HEADER & MONOGRAM --- */
+        header {
+            text-align: center;
+            padding: 40px 0 20px 0;
+            border-bottom: 1px solid var(--text-color);
+        }
+
+        .logo-monogram {
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            text-decoration: none;
+            color: var(--text-color);
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 10px 0;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: opacity 0.3s;
+        }
+
+        nav a:hover {
+            opacity: 0.6;
+        }
+
+        /* --- 4. HERO SECTION & BINGKAI FOTO PROFIL --- */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            padding: 80px 0;
+            border-bottom: 1px solid var(--text-color);
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-text p {
+            font-size: 1.1rem;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        /* Frame Foto Profil Klasik Ganda (Double Line Border) */
+        .profile-frame-outer {
+            border: 1px solid var(--text-color);
+            padding: 15px;
+            background-color: var(--bg-color);
+            box-shadow: 10px 10px 0px var(--text-color);
+            max-width: 360px;
+            margin: 0 auto;
+        }
+
+        .profile-frame-inner {
+            border: 1px solid var(--text-color);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 380px;
+            object-fit: cover;
+            display: block;
+            /* Filter Grayscale agar pas dengan konsep 2 Warna */
+            filter: grayscale(100%) contrast(105%);
+            transition: filter 0.5s ease;
+        }
+
+        .profile-frame-outer:hover .profile-img {
+            filter: grayscale(0%);
+        }
+
+        .frame-caption {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-top: 10px;
+            display: block;
+        }
+
+        /* --- 5. SECTION GENERAL & BORDER --- */
+        section {
+            padding: 70px 0;
+            border-bottom: 1px solid var(--text-color);
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background-color: var(--text-color);
+            margin-top: 10px;
+        }
+
+        /* --- 6. ABOUT SECTION --- */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 40px;
+        }
+
+        .about-quote {
+            font-size: 1.2rem;
+            font-style: italic;
+            border-left: 2px solid var(--text-color);
+            padding-left: 20px;
+        }
+
+        /* --- 7. JOURNAL / FOCUS CARDS (CHAPTERS) --- */
+        .chapters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .chapter-card {
+            border: 1px solid var(--text-color);
+            padding: 30px;
+            position: relative;
+            background-color: var(--bg-color);
+            transition: transform 0.3s;
+        }
+
+        .chapter-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .chapter-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .chapter-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        /* --- 8. GALERI FOTO SIMETRIS --- */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .gallery-item {
+            border: 1px solid var(--text-color);
+            padding: 8px;
+            text-align: center;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.4s;
+        }
+
+        .gallery-item:hover img {
+            filter: grayscale(0%);
+        }
+
+        .gallery-item span {
+            font-size: 0.75rem;
+            font-style: italic;
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* --- 9. FORM KONTAK EDITORIAL --- */
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 5px;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid var(--text-color);
+            padding: 10px 0;
+            font-family: 'Lora', serif;
+            font-size: 1rem;
+            color: var(--text-color);
+            outline: none;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            border-bottom-width: 2px;
+        }
+
+        .btn-classic {
+            background-color: transparent;
+            color: var(--text-color);
+            border: 1px solid var(--text-color);
+            padding: 12px 30px;
+            font-family: 'Playfair Display', serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            cursor: pointer;
+            align-self: flex-start;
+            transition: background-color 0.3s, color 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-classic:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+        }
+
+        /* --- 10. FOOTER --- */
+        footer {
+            padding: 40px 0;
+            text-align: center;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* --- RESPONSIVE (TAMPILAN HP) --- */
+        @media (max-width: 768px) {
+            body {
+                border: none;
+            }
+            .hero, .about-content {
+                grid-template-columns: 1fr;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+            .hero-text h1 {
+                font-size: 2.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Monogram -->
+    <header>
+        <a href="#" class="logo-monogram">A &bull; S</a>
+        <nav>
+            <ul>
+                <li><a href="#about">Tentang</a></li>
+                <li><a href="#focus">Fokus</a></li>
+                <li><a href="#gallery">Galeri</a></li>
+                <li><a href="#contact">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-text">
+            <h1>Salam, Saya Asil.</h1>
+            <p>"Menjelajahi keindahan dalam kesederhanaan, seni visual, dan ruang pembelajaran."</p>
+        </div>
+        
+        <!-- Bingkai Foto Profil Klasik Ganda -->
+        <div class="profile-frame-outer">
+            <div class="profile-frame-inner">
+                <!-- Gantilah URL gambar di bawah dengan foto kamu sendiri -->
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=600" alt="Foto Profil Asil" class="profile-img">
+                <span class="frame-caption">Fig. 01 — Portrait</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2 class="section-title">Mengenai Saya</h2>
+        <div class="about-content">
+            <div class="about-quote">
+                "Estetika bukan hanya tentang apa yang terlihat, melainkan bagaimana kita merajut setiap proses dengan ketelitian."
+            </div>
+            <div>
+                <p>Selamat datang di jurnal digital saya. Saya adalah seorang pelajar SMA yang berdomisili di Bandung. Saya memiliki ketertarikan yang mendalam terhadap seni visual, eksplorasi desain, serta hal-hal berbau kreatif.</p>
+                <p style="margin-top: 15px;">Melalui website profil ini, saya membagikan catatan perjalanan, minat pribadi, serta estetika visual yang saya sukai. Saya percaya bahwa kesederhanaan adalah bentuk tertinggi dari kecanggihan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Focus / Chapters Section -->
+    <section id="focus">
+        <h2 class="section-title">Fokus & Minat</h2>
+        <div class="chapters-grid">
+            <div class="chapter-card">
+                <span class="chapter-number">Chapter I</span>
+                <h3>Pendidikan & Akademik</h3>
+                <p>Menjalani masa SMA di Bandung dengan fokus memperdalam ilmu pengetahuan umum, mengasah pola pikir kritis, dan aktif berorganisasi.</p>
+            </div>
+            <div class="chapter-card">
+                <span class="chapter-number">Chapter II</span>
+                <h3>Seni & Estetika Visual</h3>
+                <p>Eksplorasi dalam fotografi, harmoni warna, dan elemen desain klasik yang bersih dan minimalis.</p>
+            </div>
+            <div class="chapter-card">
+                <span class="chapter-number">Chapter III</span>
+                <h3>Pengembangan Diri</h3>
+                <p>Terus belajar keterampilan baru, berdiskusi, dan membangun wawasan secara berkelanjutan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Galeri Foto Klasik -->
+    <section id="gallery">
+        <h2 class="section-title">Sudut Visual</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=400" alt="Visual 1">
+                <span>01. Ruang Kerja</span>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1455390582262-044cdead277a?auto=format&fit=crop&q=80&w=400" alt="Visual 2">
+                <span>02. Jurnal & Catatan</span>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&q=80&w=400" alt="Visual 3">
+                <span>03. Arsitektur & Sudut Kota</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Kontak -->
+    <section id="contact">
+        <h2 class="section-title">Mari Terhubung</h2>
+        <form class="contact-form" id="editorialForm">
+            <div class="form-group">
+                <label for="name">Nama Lengkap</label>
+                <input type="text" id="name" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="email">Alamat Email</label>
+                <input type="email" id="email" required autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="message">Pesan Anda</label>
+                <textarea id="message" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="btn-classic">Kirim Pesan</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Asil — Dibuat dengan gaya Classic Duotone</p>
+    </footer>
+
+    <!-- JavaScript Interaktif -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Form Submit Handling dengan gaya notifikasi klasik
+            const form = document.getElementById('editorialForm');
+            
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                
+                // Animasi sederhana pada tombol saat dikirim
+                const btn = form.querySelector('.btn-classic');
+                btn.textContent = 'MENGIRIM...';
+                btn.style.opacity = '0.5';
+
+                setTimeout(() => {
+                    alert(`Pesan Anda telah tersampaikan, ${name}. Terima kasih telah berkunjung.`);
+                    form.reset();
+                    btn.textContent = 'KIRIM PESAN';
+                    btn.style.opacity = '1';
+                }, 1000);
+            });
+
+            // Log konfirmasi
+            console.log("Website Classic Duotone Asil siap digunakan.");
+        });
+    </script>
+</body>
+  </html>
+  
